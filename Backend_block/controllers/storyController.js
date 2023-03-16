@@ -8,7 +8,7 @@ const ApiFeatures = require("../utils/apifeatures");
 
 //create story
 exports.createStory = catchasyncerrors(async(req,res,next)=>{
-    let resultPerPage = 5;
+    
     let story = await Story.create(req.body);
     res.status(201).json({
         success:true,
@@ -18,8 +18,12 @@ exports.createStory = catchasyncerrors(async(req,res,next)=>{
 
 //get all stories
 exports.getAllStories = catchasyncerrors(async(req,res)=>{
+
+    let resultPerPage = 5;
+
     let apifeatures = new ApiFeatures(Story.find(), req.query)
     .search()
+    .pagination(resultPerPage)
 
 
     let stories = await apifeatures.query;
