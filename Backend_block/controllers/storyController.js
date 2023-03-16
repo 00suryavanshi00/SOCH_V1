@@ -1,27 +1,36 @@
 let Story = require("../models/story");
 const ErrorHandler = require("../utils/errorhandler");
+let catchasyncerrors = require("../middleware/catchasyncerror");
+const ApiFeatures = require("../utils/apifeatures");
+
+
 
 
 //create story
-exports.createStory = async(req,res,next)=>{
+exports.createStory = catchasyncerrors(async(req,res,next)=>{
+    let resultPerPage = 5;
     let story = await Story.create(req.body);
     res.status(201).json({
         success:true,
         story
     })
-}
+} )
 
 //get all stories
-exports.getAllStories = async(req,res)=>{
-    let stories = await Story.find();
+exports.getAllStories = catchasyncerrors(async(req,res)=>{
+    let apifeatures = new ApiFeatures(Story.find(), req.query)
+    .search()
+
+
+    let stories = await apifeatures.query;
     res.status(200).json({
         success:true,
         stories
     })
-}
+})
 
 //update stories (still pending needs fixing)
-exports.updateStory = async(req,res,next)=>{
+exports.updateStory = catchasyncerrors(async(req,res,next)=>{
     let story = Story.findById(req.params.id);
     if(!story){
         return next(new ErrorHandler("Product not found", 404))
@@ -37,10 +46,10 @@ exports.updateStory = async(req,res,next)=>{
         success:true,
         story
     })
-}
+})
 
 //delete stories
-exports.deleteStory = async(req, res, next)=>{
+exports.deleteStory = catchasyncerrors(async(req, res, next)=>{
 
     let story = await Story.findById(req.params.id);
 
@@ -55,10 +64,10 @@ exports.deleteStory = async(req, res, next)=>{
         message:"Story Deleted Successfully"
     })
 
-}
+})
 
 //get a single story(this will be used when the user selects one particular story) @frontend team
-exports.getOneStory = async(req,res,next)=>{
+exports.getOneStory = catchasyncerrors(async(req,res,next)=>{
 
     let story = await Story.findById(req.params.id);
 
@@ -73,4 +82,4 @@ exports.getOneStory = async(req,res,next)=>{
     })
 
 
-}
+})
