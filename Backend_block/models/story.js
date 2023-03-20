@@ -1,6 +1,6 @@
 let mongoose = require("mongoose");
 
-const storySchema = mongoose.Schema({
+const storySchema = new mongoose.Schema({
     name:{
         type:String,
         required:[true,"Please enter story name"]
