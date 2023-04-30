@@ -35,7 +35,12 @@
 let express = require("express");
 let app = express();
 let errorMiddleware = require("./middleware/error")
+<<<<<<< HEAD
 let cookieParser = require()
+=======
+
+
+>>>>>>> fb5069383d3207ef06f87dcdca2126faa459da6f
 
 app.use
 app.use(express.json())
