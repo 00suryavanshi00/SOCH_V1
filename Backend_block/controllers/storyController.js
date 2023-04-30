@@ -37,7 +37,7 @@ exports.getAllStories = catchasyncerrors(async(req,res)=>{
 exports.updateStory = catchasyncerrors(async(req,res,next)=>{
     let story = Story.findById(req.params.id);
     if(!story){
-        return next(new ErrorHandler("Product not found", 404))
+        return next(new ErrorHandler("Story not found", 404))
         }
 
     story = await Story.findByIdAndUpdate(req.params.id, req.body,{
@@ -58,7 +58,7 @@ exports.deleteStory = catchasyncerrors(async(req, res, next)=>{
     let story = await Story.findById(req.params.id);
 
     if(!story){
-        return next(new ErrorHandler("Product not found", 404))
+        return next(new ErrorHandler("Story not found", 404))
         }
 
     await story.remove();
@@ -76,7 +76,7 @@ exports.getOneStory = catchasyncerrors(async(req,res,next)=>{
     let story = await Story.findById(req.params.id);
 
     if(!story){
-        return next(new ErrorHandler("Product not found", 404))
+        return next(new ErrorHandler("Story not found", 404))
         }
     
 
