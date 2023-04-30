@@ -16,9 +16,6 @@ export const Register = (props) => {
         console.log(contact);
         console.log(email);
         console.log(pass);
-       
-
-
     }
 
 
