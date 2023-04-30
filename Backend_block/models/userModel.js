@@ -1,6 +1,8 @@
 let mongoose = require("mongoose");
 let validator = require("validator")
-
+let brcypt = require("bcryptjs")
+let jwt = require('jsonwebtoken')
+require("dotenv").config();
 
 let userSchema = new mongoose.Schema({
     name:{
@@ -38,5 +40,29 @@ let userSchema = new mongoose.Schema({
     resetPasswordToken:String,
     resetPasswordExpire:Date,
 })
+
+
+userSchema.pre("save", async function(next){
+
+    if(!this.isModified("password")){
+        next();
+    }
+    this.password = await brcypt.hash(this.password,10);
+
+})
+
+//JWT TOKEN
+
+userSchema.methods.getJWTToken = function(){
+    return jwt.sign({
+        id:this._id
+    }, process.env.JWT_SECRET,{
+        expiresIn:process.env.JWT_EXPIRE
+    })
+}
+
+userSchema.methods.comparePassword = async function(enteredPassword){
+    return await brcypt.compare(enteredPassword, this.password)
+}
 
 module.exports = mongoose.model("User",userSchema);

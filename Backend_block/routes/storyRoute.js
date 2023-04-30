@@ -4,7 +4,7 @@ const { getAllStories,createStory, updateStory, deleteStory, getOneStory } = req
 let router = express.Router();
 
 router.route("/stories").get(getAllStories);
-router.route("/stories/new").post(createStory);
+router.route("/stories/new").post(createStory); 
 router.route("/stories/:id").put(updateStory).delete(deleteStory).get(getOneStory)
 
 
